@@ -13,6 +13,13 @@ aura_env.messagePrefixes.putProfile = "msgSharerPut";
 
 -- Sends a simcString to the server aura
 local function OnGetProfile(...)
+    local currentSpecId = GetSpecialization();
+    local role = GetSpecializationRole(currentSpecId);
+
+    if role == "HEALER" then
+        return
+    end
+    
     local simc = _G.LibStub("AceAddon-3.0"):GetAddon("Simulationcraft");
     local simcString = simc:GetSimcProfile();
     local _, _, sender = select(1, ...);
