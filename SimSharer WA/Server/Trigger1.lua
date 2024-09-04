@@ -6,6 +6,7 @@ function(event)
 
     aura_env.isCollecting = true;
     aura_env:debugPrint("start collecting", aura_env.db);
+    aura_env.displayText = "Started Collection"
     local sender, _ = UnitName("PLAYER");
 
     -- prevents multiple registration

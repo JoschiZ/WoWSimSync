@@ -103,8 +103,15 @@ async Task<(AddonOutputEntry Character, string reportId)> GetReportPage(IBrowser
     }
     
     var uri = new Uri(page.Url);
-
-    await page.Locator("#Report-backLink").ClickAsync(new LocatorClickOptions(){Timeout = TimeSpan.FromMinutes(10).Milliseconds});
+    try
+    {
+        await page.Locator("#Report-backLink").ClickAsync(new LocatorClickOptions(){Timeout = TimeSpan.FromMinutes(10).Milliseconds});
+    }
+    catch (TimeoutException)
+    {
+        
+    }
+    
     
     return (character, uri.Segments[^1]);
 }

@@ -15,6 +15,8 @@ if ac then ac:Embed(aura_env) end;
 local as = LibStub("AceSerializer-3.0", true)
 if as then as:Embed(aura_env) end;
 
+
+local env = aura_env;
 -- internal function for easier debugging
 aura_env.debugPrint = function(key, value)
     if not env.config.isDebug then
