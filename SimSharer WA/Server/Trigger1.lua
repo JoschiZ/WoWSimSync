@@ -36,6 +36,10 @@ function(event)
         aura_env:RegisterComm(aura_env.messagePrefixes.putProfile, "OnPutProfile")
     end
 
-
-    aura_env:SendCommMessage(aura_env.messagePrefixes.getProfile, sender, "GUILD");
+    if aura_env.config.isDebug then
+        aura_env:SendCommMessage(aura_env.messagePrefixes.getProfile, sender, "GUILD");
+    else
+        aura_env:SendCommMessage(aura_env.messagePrefixes.getProfile, sender, "RAID");
+    end
+    
 end
