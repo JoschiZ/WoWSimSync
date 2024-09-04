@@ -5,10 +5,12 @@ It consists of two different Auras.
 ## Sharer - Client
 This lightweight WA uses the SimulationCraft Addon to export your SimC string and POST it to the server aura.
 There is no user interaction required.
+Everybody of whoom you want to collect the simc strings needs install this aura.
 
 ## Sharer - Server
 The server aura will send GET requests to each client in your Raid and collect their SimC responses.
 It reacts to three different command macros.
+Only the one who wants to collect the strings needs this aura.
 
 ### 1. Collection Start
     /run WeakAuras.ScanEvents("SHARER_START_COLLECTION")
