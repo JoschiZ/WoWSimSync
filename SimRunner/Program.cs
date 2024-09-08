@@ -15,6 +15,22 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false)
     .Build();
 
+var file = File.OpenRead("input.json");
+var entriesDictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, AddonOutputEntry>>(file);
+
+if (entriesDictionary is null)
+{
+    throw new FileNotFoundException("The input file was not found. Or could not be deserialized.");
+}
+
+foreach (var entry in entriesDictionary)
+{
+    Console.WriteLine($"Found entry: {entry.Key}");
+}
+
+var entries = entriesDictionary.Select(x => x.Value).ToList();
+
+
 var pipeline = new ResiliencePipelineBuilder()
     .AddRetry(new RetryStrategyOptions()
     {
@@ -43,9 +59,7 @@ if (roster is null)
     throw new Exception("Roster is missing");
 }
 
-var file = File.OpenRead("input.json");
-var entriesDictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, AddonOutputEntry>>(file);
-var entries = entriesDictionary.Select(x => x.Value).ToList();
+
 using var playwright = await Playwright.CreateAsync();
 await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
 var context = await browser.NewContextAsync();
@@ -106,12 +120,12 @@ async Task<(AddonOutputEntry Character, string reportId)> GetReportPage(IBrowser
     try
     {
         await page.Locator("#Report-backLink").ClickAsync(new LocatorClickOptions(){Timeout = TimeSpan.FromMinutes(10).Milliseconds});
+        await page.CloseAsync();
     }
     catch (TimeoutException)
     {
-        
+        Console.WriteLine("Sim took too long");
     }
-    
     
     return (character, uri.Segments[^1]);
 }
